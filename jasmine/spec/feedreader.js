@@ -62,7 +62,7 @@ $(function() {
          * hiding/showing of the menu element.
          */
         it('is hidden by default', function () {
-
+            expect(document.body.classList[0]).toBe("menu-hidden");
         });
 
          /* TODO: Write a test that ensures the menu changes
@@ -71,7 +71,10 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
          it('reveals and hides', function() {
-
+            $('.menu-icon-link').click();
+            expect(document.body.classList[0]).not.toBe("menu-hidden");
+            $('.menu-icon-link').click();
+            expect(document.body.classList[0]).toBe("menu-hidden");
          });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -103,11 +106,11 @@ $(function() {
             });
         });
         it ('loads', function (done) {
-            var content = $('.feed').children().children('.entry')[0].children();
+            this.content = $('.feed');
             loadFeed(1, function() {
+                expect(this.content).not.toEqual($('.feed'));
                 done();
             });
-            expect(content).not.toEqual($('.feed').children().children('.entry')[0].children());
         });
     });
 }());
