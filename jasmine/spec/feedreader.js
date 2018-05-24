@@ -29,7 +29,8 @@ $(function() {
          */
         it('have URLs', function () {
             for (var feed in allFeeds) {
-                expect(feed.url).not.toEqual("");
+                expect(allFeeds[feed].url).toBeDefined();
+                expect(allFeeds[feed].url).not.toEqual("");
             };
         });
 
@@ -40,19 +41,21 @@ $(function() {
          */
         it('have names', function () {
             for (var feed in allFeeds) {
-                expect(feed.name).not.toEqual("");
+                expect(allFeeds[feed].name).toBeDefined();
+                expect(allFeeds[feed].name).not.toEqual("");
             };
         });
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    /* test suite named "The menu" */
     describe('The menu', function() {
         /* ensures the menu element is
          * hidden by default.
          */
+        var body = $('body');
         it('is hidden by default', function () {
-            expect($('body').hasClass('menu-hidden')).toBe(true);
+            expect(body.hasClass('menu-hidden')).toBe(true);
         });
 
          /* ensures the menu changes
@@ -61,9 +64,9 @@ $(function() {
           */
          it('reveals and hides', function() {
             $('.menu-icon-link').click();
-            expect($('body').hasClass('menu-hidden')).not.toBe(true);
+            expect(body.hasClass('menu-hidden')).not.toBe(true);
             $('.menu-icon-link').click();
-            expect($('body').hasClass('menu-hidden')).toBe(true);
+            expect(body.hasClass('menu-hidden')).toBe(true);
          });
     });
     /* test suite named "Initial Entries" */
@@ -78,7 +81,7 @@ $(function() {
             });
         });
         it ('load the feed', function() {
-            expect($('.feed').children().children('.entry').length).not.toBe(0);
+            expect($('.feed .entry').length).not.toBe(0);
         });
     });
     /* test suite named "New Feed Selection" */
@@ -92,8 +95,8 @@ $(function() {
                 content = $('.feed .entry')[0].innerText;
                 loadFeed(1, function() {
                     newContent = $('.feed')[0].innerText;
+                    done();
                 });
-                done();
             });
             
         });
