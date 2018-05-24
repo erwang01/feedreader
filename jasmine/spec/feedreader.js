@@ -1,7 +1,4 @@
 /* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
  */
 
 /* We're placing all of our tests within the $() function,
@@ -9,8 +6,7 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
+    /* This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
     */
     describe('RSS Feeds', function() {
@@ -32,10 +28,8 @@ $(function() {
          * and that the URL is not empty.
          */
         it('have URLs', function () {
-            if (allFeeds != null) {
-                for (var feed in allFeeds, function() {
-                    expect(feed.url).not.equals("");
-                });
+            for (var feed in allFeeds) {
+                expect(feed.url).not.toEqual("");
             };
         });
 
@@ -45,10 +39,8 @@ $(function() {
          * and that the name is not empty.
          */
         it('have names', function () {
-            if (allFeeds != null) {
-                for (var feed in allFeeds, function() {
-                    expect(feed.name).not.equals("");
-                });
+            for (var feed in allFeeds) {
+                expect(feed.name).not.toEqual("");
             };
         });
     });
@@ -94,17 +86,19 @@ $(function() {
         /* ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          */
+        var content, newContent;
         beforeEach(function(done) {
             loadFeed(0, function() {
-                this.content = $('.feed');
+                content = $('.feed .entry')[0].innerText;
+                loadFeed(1, function() {
+                    newContent = $('.feed')[0].innerText;
+                });
+                done();
             });
-            loadFeed(1, function() {
-                this.newContent = $('.feed');
-            });
-            done();
+            
         });
-        it ('loads', function (done) {
-            expect(this.content).not.toEqual(this.newContent);
+        it ('loads', function () {
+            expect(content).not.toEqual(newContent);
 
         });
     });
